@@ -22,6 +22,9 @@ import com.automation.route.routemaster.common.CommonUrl;
 @Controller
 @RequestMapping("/route")
 public class RouteDataController {
+  
+  private final String naverId = "urqe7bou5e";
+  private final String naverPw = "8kX1hVBcnKmuy4R7dnlnt9gihU9hcWd28LTzVi9R";
 
   @ResponseBody
   @GetMapping("/naverPlaceInfo")
@@ -40,8 +43,8 @@ public class RouteDataController {
     RestTemplate restTemplate = new RestTemplate();
 
     RequestEntity<Void> req = RequestEntity.get(uri)
-                                          .header("X-NCP-APIGW-API-KEY-ID", "urqe7bou5e")
-                                          .header("X-NCP-APIGW-API-KEY", "8kX1hVBcnKmuy4R7dnlnt9gihU9hcWd28LTzVi9R")
+                                          .header("X-NCP-APIGW-API-KEY-ID", this.naverId)
+                                          .header("X-NCP-APIGW-API-KEY", this.naverPw)
                                           .build();
 
     ResponseEntity<String> result = restTemplate.exchange(req, String.class);
@@ -92,8 +95,8 @@ public class RouteDataController {
     RestTemplate restTemplate = new RestTemplate();
 
     RequestEntity<Void> req = RequestEntity.get(uri)
-                                          .header("X-NCP-APIGW-API-KEY-ID", "urqe7bou5e")
-                                          .header("X-NCP-APIGW-API-KEY", "8kX1hVBcnKmuy4R7dnlnt9gihU9hcWd28LTzVi9R")
+                                          .header("X-NCP-APIGW-API-KEY-ID", this.naverId)
+                                          .header("X-NCP-APIGW-API-KEY", this.naverPw)
                                           .build();
 
     ResponseEntity<String> result = restTemplate.exchange(req, String.class);
