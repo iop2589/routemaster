@@ -17,15 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.automation.route.routemaster.common.CommonData;
 import com.automation.route.routemaster.common.CommonUrl;
 
 @Controller
 @RequestMapping("/route")
 public class RouteDataController {
   
-  private final String naverId = "urqe7bou5e";
-  private final String naverPw = "8kX1hVBcnKmuy4R7dnlnt9gihU9hcWd28LTzVi9R";
-
   @ResponseBody
   @GetMapping("/naverPlaceInfo")
   public JSONObject getNaverPlaceInfo (@RequestParam("query") String query) {
@@ -43,8 +41,8 @@ public class RouteDataController {
     RestTemplate restTemplate = new RestTemplate();
 
     RequestEntity<Void> req = RequestEntity.get(uri)
-                                          .header("X-NCP-APIGW-API-KEY-ID", this.naverId)
-                                          .header("X-NCP-APIGW-API-KEY", this.naverPw)
+                                          .header("X-NCP-APIGW-API-KEY-ID", CommonData.NAVERID)
+                                          .header("X-NCP-APIGW-API-KEY", CommonData.NAVERPW)
                                           .build();
 
     ResponseEntity<String> result = restTemplate.exchange(req, String.class);
@@ -95,8 +93,8 @@ public class RouteDataController {
     RestTemplate restTemplate = new RestTemplate();
 
     RequestEntity<Void> req = RequestEntity.get(uri)
-                                          .header("X-NCP-APIGW-API-KEY-ID", this.naverId)
-                                          .header("X-NCP-APIGW-API-KEY", this.naverPw)
+                                          .header("X-NCP-APIGW-API-KEY-ID", CommonData.NAVERID)
+                                          .header("X-NCP-APIGW-API-KEY", CommonData.NAVERPW)
                                           .build();
 
     ResponseEntity<String> result = restTemplate.exchange(req, String.class);
