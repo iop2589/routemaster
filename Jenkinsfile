@@ -1,5 +1,5 @@
 node('docker-build') {
-        def dockerHubCred = <your_dockerhub_cred>
+        def dockerHubCred = <docker_hub_key>
         def appImage
         
         stage('Checkout'){
@@ -11,7 +11,7 @@ node('docker-build') {
         stage('Build'){
             container('docker'){
                 script {
-                    appImage = docker.build("<your-dockerhub-id>/node-hello-world")
+                    appImage = docker.build("iop2589/route-master")
                 }
             }
         }
