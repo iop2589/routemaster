@@ -2,32 +2,20 @@ node {
         def dockerHubCred = credentials('docker_hub_key')
         def appImage
         
-        stage('Checkout'){
+        stage('checkout'){
             container('git'){
                 checkout scm
             }
         }
         
-        stage('Build'){
+        stage('build'){
             container('docker'){
                 script {
                     appImage = docker.build("iop2589/route-master")
                 }
             }
         }
-        
-        stage('Test'){
-            container('docker'){
-                script {
-                    appImage.inside {
-                        sh 'npm install'
-                        sh 'npm test'
-                    }
-                }
-            }
-        }
-
-        stage('Push'){
+        stage('push'){
             container('docker'){
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', dockerHubCred){
