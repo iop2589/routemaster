@@ -1,5 +1,5 @@
 node {
-        def dockerHubCred = "${docker_hub_key}"
+        def dockerHubCred = credentials('docker_hub_key')
         def appImage
         
         stage('Checkout'){
