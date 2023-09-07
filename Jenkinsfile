@@ -1,5 +1,5 @@
 node('docker-build') {
-        def dockerHubCred = <docker_hub_key>
+        def dockerHubCred = docker_hub_key
         def appImage
         
         stage('Checkout'){
