@@ -9,10 +9,9 @@ pipeline {
         imagename = "route-master"
         registryCredential = credentials('docker_hub_key')
         dockerImage = ''
-    }
-
-    tools {
-      'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
+        tools {
+          'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
+        }
     }
 
     stages {
