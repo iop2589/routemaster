@@ -12,11 +12,7 @@ pipeline {
     }
 
     stages {
-        stage('Initialize'){
-            def dockerHome = tool 'myDocker'
-            env.PATH = "${dockerHome}/bin:${env.PATH}"
-        }
-        
+
         // git에서 repository clone
         stage('Prepare') {
           steps {
@@ -24,14 +20,18 @@ pipeline {
             git url: 'https://github.com/iop2589/routemaster.git',
               branch: 'main',
               credentialsId: 'GitHub_key'
+            script {
+              def dockerHome = tool 'myDocker'
+              env.PATH = "${dockerHome}/bin:${env.PATH}"
             }
-            post {
-              success { 
-                echo 'Successfully Cloned Repository'
-              }
-              failure {
-                error 'This pipeline stops here...'
-              }
+          }
+          post {
+            success { 
+              echo 'Successfully Cloned Repository'
+            }
+            failure {
+              error 'This pipeline stops here...'
+            }
           }
         }
 
