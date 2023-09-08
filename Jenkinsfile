@@ -11,12 +11,12 @@ pipeline {
         dockerImage = ''
     }
 
-    stage('Initialize'){
-        def dockerHome = tool 'myDocker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
-    }
-
     stages {
+        stage('Initialize'){
+            def dockerHome = tool 'myDocker'
+            env.PATH = "${dockerHome}/bin:${env.PATH}"
+        }
+        
         // git에서 repository clone
         stage('Prepare') {
           steps {
