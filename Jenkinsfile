@@ -11,6 +11,11 @@ pipeline {
         dockerImage = ''
     }
 
+    tools {
+      <...>
+      'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
+    }
+
     stages {
         // git에서 repository clone
         stage('Prepare') {
