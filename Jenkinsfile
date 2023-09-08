@@ -54,7 +54,11 @@ pipeline {
           steps {
             echo 'Bulid Docker'
             script {
+              try {
                 dockerImage = docker.build imagename
+              } catch (err) {
+                echo "Docker Build Falied ***** : ${err}"
+              }
             }
           }
           post {
