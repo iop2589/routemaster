@@ -9,9 +9,11 @@ pipeline {
         imagename = "route-master"
         registryCredential = credentials('docker_hub_key')
         dockerImage = ''
-        tools {
-          'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
-        }
+    }
+
+    stage('Initialize'){
+        def dockerHome = tool 'myDocker'
+        env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
 
     stages {
