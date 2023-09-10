@@ -60,7 +60,8 @@ pipeline {
             echo 'Bulid Docker'
             script {
               try {
-                dockerImage = docker.build imagename
+                //dockerImage = docker.build imagename
+                sh 'docker buildx -t ${imagename}'
               } catch (err) {
                 echo "Docker Build Falied ***** : ${err}"
               }
