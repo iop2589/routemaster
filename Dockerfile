@@ -1,5 +1,5 @@
 # 우분투 , jdk 설치
-FROM ubuntu:18.04
+FROM arm64v8/ubuntu
 FROM openjdk:17.0.2-jdk
 ENV APP_HOME=/apps
 ARG JAR_FILE_PATH=build/libs/routemaster-0.0.1-SNAPSHOT.jar
