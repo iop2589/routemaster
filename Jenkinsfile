@@ -60,12 +60,11 @@ pipeline {
             echo 'Bulid Docker'
             script {
               try {
-                def dockerHome = tool 'myDocker'
                 // sh 'docker buildx create --name multiarch-builder --use multiarch-builder'
-                dockerImage = dockerHome.build(imagename)
+                dockerImage = docker.build(imagename)
                 // sh 'docker buildx build -t ${imagename}'
               } catch (err) {
-                echo "Docker Build Falied ***** : ${err}"
+                error "Docker Build Falied ***** : ${err}"
               }
             }
           }
