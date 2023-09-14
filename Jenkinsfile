@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        imagename = "route-master"
+        imagename = "routemaster"
         registryCredential = credentials('docker_hub_key')
         dockerImage = ''
     }
