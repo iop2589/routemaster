@@ -61,8 +61,8 @@ pipeline {
             script {
               try {
                 // sh 'docker buildx create --name multiarch-builder --use multiarch-builder'
-                dockerImage = docker.build(imagename)
-                // sh 'docker buildx build -t ${imagename}'
+                // dockerImage = docker.build(imagename)
+                sh 'docker buildx build -t ${imagename}'
               } catch (err) {
                 error "Docker Build Falied ***** : ${err}"
               }
