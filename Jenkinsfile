@@ -10,10 +10,10 @@ pipeline {
         imagename = "routemaster"
         registryCredential = credentials('docker_hub_key')
         dockerImage = ''
-        BUILD_NUMBER = env.BUILD_NUMBER
+        BUILD_NUMBER = "${BUILD_NUMBER}"
     }
 
-    stages {
+    stages {ㅌ
 
         // git에서 repository clone
         stage('Prepare') {
