@@ -13,7 +13,7 @@ pipeline {
         BUILD_NUMBER = "${BUILD_NUMBER}"
     }
 
-    stages {ㅌ
+    stages {
 
         // git에서 repository clone
         stage('Prepare') {
