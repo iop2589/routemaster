@@ -6,9 +6,11 @@ pipeline {
     }
 
     environment {
+        repository = "iop2589/routemaster"
         imagename = "routemaster"
         registryCredential = credentials('docker_hub_key')
         dockerImage = ''
+        BUILD_NUMBER = env.BUILD_NUMBER
     }
 
     stages {
@@ -60,9 +62,7 @@ pipeline {
             echo 'Bulid Docker'
             script {
               try {
-                // sh 'docker buildx create --name multiarch-builder --use multiarch-builder'
-                dockerImage = docker.build(imagename)
-                // sh 'docker buildx build -t ${imagename} . '
+                sh 'docker buildx build $repository:$BUILD_NUMBER .'
               } catch (err) {
                 error "Docker Build Falied ***** : ${err}"
               }
@@ -75,26 +75,22 @@ pipeline {
           }
         }
 
-        // docker push
-        stage('Push Docker') {
-          agent any
+        stage('Login') {
           steps {
-            echo 'Push Docker'
+            sh 'echo $registryCredential | docker login -u $registryCredential --password-stdin'
+          }
+        }
+
+        stage('Deploy our image') {
+          steps {
             script {
-              try {
-                docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                    dockerImage.push("1.0")  // ex) "1.0"
-                }
-              } catch (err) {
-                error "Docker Push Failed ***** : ${err}"
-              }
+              sh 'docker push $repository:$BUILD_NUMBER' // docker push
             }
           }
-          post {
-            failure {
-              error 'This pipeline stops here...'
-            }
-          }
+        }
+
+        stage('Cleaning up') {
+          sh 'docker rmi $repository:$BUILD_NUMBER'
         }
     }
 }
