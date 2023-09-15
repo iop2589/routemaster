@@ -76,6 +76,7 @@ pipeline {
         }
 
         stage('Push docker'){
+          steps {
             container('docker'){
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential){
@@ -84,6 +85,7 @@ pipeline {
                     }
                 }
             }
+          }
         }
     }
 }
