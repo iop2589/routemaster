@@ -61,8 +61,8 @@ pipeline {
             echo 'Bulid Docker'
             script {
               try {
-                //sh 'docker buildx build .'
-                dockerImage = docker.build('iop2589/$imagename:$BUILD_NUMBER')
+                sh 'docker buildx build .'
+                //dockerImage = docker.build('$repository:$BUILD_NUMBER')
               } catch (err) {
                 error "Docker Build Falied ***** : ${err}"
               }
@@ -80,8 +80,8 @@ pipeline {
             container('docker'){
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential){
-                        appImage.push('$BUILD_NUMBER')
-                        appImage.push("latest")
+                        dockerImage.push('$BUILD_NUMBER')
+                        dockerImage.push("latest")
                     }
                 }
             }
