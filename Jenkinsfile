@@ -14,7 +14,6 @@ pipeline {
     }
 
     stages {
-        def appImage
         // git에서 repository clone
         stage('Prepare') {
           steps {
@@ -63,7 +62,7 @@ pipeline {
             script {
               try {
                 //sh 'docker buildx build .'
-                appImage = docker.build('iop2589/$imagename:$BUILD_NUMBER')
+                dockerImage = docker.build('iop2589/$imagename:$BUILD_NUMBER')
               } catch (err) {
                 error "Docker Build Falied ***** : ${err}"
               }
