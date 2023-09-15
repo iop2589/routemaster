@@ -62,7 +62,7 @@ pipeline {
             echo 'Bulid Docker'
             script {
               try {
-                sh 'docker buildx build $repository:$BUILD_NUMBER .'
+                sh 'docker buildx build .'
               } catch (err) {
                 error "Docker Build Falied ***** : ${err}"
               }
