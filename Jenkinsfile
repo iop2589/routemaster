@@ -81,9 +81,13 @@ pipeline {
           steps {
             echo 'Push Docker'
             script {
+              try {
                 docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
                     dockerImage.push("1.0")  // ex) "1.0"
                 }
+              } catch (err) {
+                error "Docker Push Failed ***** : ${err}"
+              }
             }
           }
           post {
