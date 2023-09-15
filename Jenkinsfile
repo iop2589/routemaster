@@ -87,10 +87,11 @@ pipeline {
               sh 'docker push $repository:$BUILD_NUMBER' // docker push
             }
           }
-        }
-
-        stage('Cleaning up') {
-          sh 'docker rmi $repository:$BUILD_NUMBER'
+          steps {
+            script {
+              sh 'docker rmi $repository:$BUILD_NUMBER'
+            }
+          }
         }
     }
 }
