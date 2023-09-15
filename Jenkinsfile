@@ -75,7 +75,7 @@ pipeline {
           }
         }
 
-        stage('Push'){
+        stage('Push docker'){
             container('docker'){
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential){
