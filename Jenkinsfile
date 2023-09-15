@@ -85,11 +85,7 @@ pipeline {
           steps {
             script {
               sh 'docker push $repository:$BUILD_NUMBER' // docker push
-            }
-          }
-          steps {
-            script {
-              sh 'docker rmi $repository:$BUILD_NUMBER'
+              sh 'docker rmi $repository:$BUILD_NUMBER' // local image  delete
             }
           }
         }
