@@ -75,14 +75,13 @@ pipeline {
           }
         }
 
-        stage('Push docker'){
+        stage('Build & Push docker'){
           steps {
-            container('docker'){
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential){
-                        dockerImage.push('$BUILD_NUMBER')
-                        dockerImage.push("latest")
-                    }
+            script {
+                docker.withRegistry('https://registry.hub.docker.com', registryCredential){
+                  def dockerImage = docker.build('$imagename')
+                  dockerImage.push('$BUILD_NUMBER')
+                  dockerImage.push("latest")
                 }
             }
           }
