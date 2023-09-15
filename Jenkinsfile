@@ -14,7 +14,7 @@ pipeline {
     }
 
     stages {
-
+        def appImage
         // git에서 repository clone
         stage('Prepare') {
           steps {
@@ -62,7 +62,8 @@ pipeline {
             echo 'Bulid Docker'
             script {
               try {
-                sh 'docker buildx build .'
+                //sh 'docker buildx build .'
+                appImage = docker.build('iop2589/$imagename:$BUILD_NUMBER')
               } catch (err) {
                 error "Docker Build Falied ***** : ${err}"
               }
@@ -75,19 +76,15 @@ pipeline {
           }
         }
 
-        stage('Login') {
-          steps {
-            sh 'echo $registryCredential | docker login -u $registryCredential --password-stdin'
-          }
-        }
-
-        stage('Deploy our image') {
-          steps {
-            script {
-              sh 'docker push $repository:$BUILD_NUMBER' // docker push
-              sh 'docker rmi $repository:$BUILD_NUMBER' // local image  delete
+        stage('Push'){
+            container('docker'){
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential){
+                        appImage.push('$BUILD_NUMBER')
+                        appImage.push("latest")
+                    }
+                }
             }
-          }
         }
     }
 }
