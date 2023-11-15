@@ -61,7 +61,7 @@ pipeline {
             echo 'Bulid Docker'
             script {
               try {
-                sh 'docker buildx build .'
+                sh 'docker buildx build --platform=linux/amd64 --tag route-master ./ --push'
                 //dockerImage = docker.build('$repository:$BUILD_NUMBER')
               } catch (err) {
                 error "Docker Build Falied ***** : ${err}"
@@ -73,18 +73,6 @@ pipeline {
               error 'This pipeline stops here...'
             }
           }
-        }
-
-        stage('Build & Push docker'){
-          steps {
-            script {
-                docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_key'){
-                  def dockerImage = docker.build('$imagename')
-                  dockerImage.push('$BUILD_NUMBER')
-                  dockerImage.push("latest")
-                }
-            }
-          }
-        }
+        }ß
     }
 }
