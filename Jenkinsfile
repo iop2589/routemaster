@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     triggers {
         pollSCM('*/3 * * * *')
     }
@@ -38,7 +37,6 @@ pipeline {
 
         // gradle build
         stage('Bulid Gradle') {
-          agent any
           steps {
             echo 'Bulid Gradle'
             dir ('.'){
@@ -55,10 +53,9 @@ pipeline {
         }
         
         // docker build
-        stage('Bulid Docker') {
-          agent any
+        stage('Build Docker') {
           steps {
-            echo 'Bulid Docker'
+            echo 'Build Docker'
             script {
               try {
                 sh 'docker buildx build --platform=linux/amd64 --tag route-master ./ --push'
