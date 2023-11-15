@@ -25,7 +25,9 @@ pipeline {
     stage('Build Docker') {
       steps {
         echo 'Build Docker'
-        sshPublisher(publishers: [sshPublisherDesc(configName: 'jenkins-ansible-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker buildx build --platform=linux/amd64 --tag route-master ./ --push', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'build/libs', sourceFiles: 'build/libs/*.jar')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+        sh '''
+          docker buildx build --platform=linux/amd64 --tag route-master ./ --push
+        '''
       }
     }
   }
