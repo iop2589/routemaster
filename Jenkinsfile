@@ -25,9 +25,10 @@ pipeline {
     stage('Build Docker') {
       steps {
         echo 'Build Docker'
-        sh '''
-          docker buildx build --platform=linux/amd64 --tag route-master ./ --push
-        '''
+        // This step should not normally be used in your script. Consult the inline help for details.
+        withDockerRegistry(credentialsId: 'docker-hub-key') {
+            sh 'docker buildx build --platform=linux/amd64 --tag iop2589/route-master ./ --push some block'
+        }
       }
     }
   }
