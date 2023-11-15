@@ -11,7 +11,7 @@ pipeline {
         stage('Git Clone') {
           steps {
             echo 'Clonning Repository'
-            git url: 'https://github.com/iop2589/routemaster.git' branch: 'main' credentialsId: 'GitHub_key'
+            git branch: 'main', credentialsId: 'GitHub-credentials', url: 'https://github.com/iop2589/routemaster.git'
           }
         }
 
