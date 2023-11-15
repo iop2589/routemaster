@@ -1,12 +1,6 @@
 pipeline {
     agent any
-    triggers {
-        pollSCM('*/3 * * * *')
-    }
-
     environment {
-        repository = "iop2589/routemaster"
-        imagename = "routemaster"
         registryCredential = credentials('docker_hub_key')
         dockerImage = ''
         BUILD_NUMBER = "${BUILD_NUMBER}"
@@ -14,24 +8,10 @@ pipeline {
 
     stages {
         // git에서 repository clone
-        stage('Prepare') {
+        stage('Git Clone') {
           steps {
             echo 'Clonning Repository'
-            git url: 'https://github.com/iop2589/routemaster.git',
-              branch: 'main',
-              credentialsId: 'GitHub_key'
-            script {
-              def dockerHome = tool 'myDocker'
-              env.PATH = "${dockerHome}/bin:${env.PATH}"
-            }
-          }
-          post {
-            success { 
-              echo 'Successfully Cloned Repository'
-            }
-            failure {
-              error 'This pipeline stops here...'
-            }
+            git url: 'https://github.com/iop2589/routemaster.git' branch: 'main' credentialsId: 'GitHub_key'
           }
         }
 
@@ -45,31 +25,22 @@ pipeline {
                 """
             }
           }
-          post {
-            failure {
-              error 'This pipeline stops here...'
-            }
-          }
         }
         
         // docker build
         stage('Build Docker') {
           steps {
             echo 'Build Docker'
-            script {
-              try {
-                sh 'docker buildx build --platform=linux/amd64 --tag route-master ./ --push'
-                //dockerImage = docker.build('$repository:$BUILD_NUMBER')
-              } catch (err) {
-                error "Docker Build Falied ***** : ${err}"
-              }
-            }
+            sh '''
+              docker buildx build --platform=linux/amd64 --tag route-master ./ --push
+            '''
           }
-          post {
-            failure {
-              error 'This pipeline stops here...'
-            }
-          }
-        }ß
+        }
+      }
+    }
+    post {
+      failure {
+        error 'This pipeline stops here...'
+      }
     }
 }
