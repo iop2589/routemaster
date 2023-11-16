@@ -31,8 +31,18 @@ pipeline {
         }
       }
     }
+
+    stage('Deploy Docker') {
+      steps {
+        echo 'Deploy Docker'
+        sshPublisher(publishers: [sshPublisherDesc(configName: 'jenkins-ansible-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ansible-playbook route-master-deploy-playbook.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+      }
+    }
   }
   post {
+    success {
+      echo 'Successfully docker deploy'
+    }
     failure {
       error 'This pipeline stops here...'
     }
